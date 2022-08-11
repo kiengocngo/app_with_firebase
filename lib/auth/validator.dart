@@ -3,33 +3,33 @@ class CustomVadicator {
 
   String? passwordVadicator(String? value) {
     if (value!.isEmpty) {
-      return 'Enter your password';
+      return 'Mật khẩu không được để trống';
     }
-    if (!RegExp('.{8,}').hasMatch(value)) {
-      return 'Must be at least 8 character in lenght';
+    if (!RegExp('.{6,}').hasMatch(value)) {
+      return 'Mật khẩu phải tối thiểu 6 kí tự';
     }
     if (!RegExp('(?=.*?[!@#\$&*~])').hasMatch(value)) {
-      return 'Should contain at least one Special character';
+      return 'Cần ít nhất một kí tự đặc biệt';
     }
     if (!RegExp('(?=.*?[0-9])').hasMatch(value)) {
-      return 'Should contain at least one digit';
+      return 'Cần ít nhất một số';
     }
     if (!RegExp('(?=.*[a-z])').hasMatch(value)) {
-      return 'Should contain at least lower case';
+      return 'Cần ít nhất một chữ cái thường';
     }
     if (!RegExp('(?=.*[A-Z])').hasMatch(value)) {
-      return 'Should contain at least upper case';
+      return 'Cần ít nhất một chữ cái viết hoa';
     }
     return null;
   }
 
   String? emailValicator(String? value) {
     if (value!.isEmpty) {
-      return 'Enter your email';
+      return 'Email không được để trống';
     }
     if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]+.[.]com")
         .hasMatch(value)) {
-      return 'Please enter the valid email address';
+      return 'Kiểm tra định dạng email';
     }
     return null;
   }

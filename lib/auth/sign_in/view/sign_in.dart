@@ -14,7 +14,7 @@ class SignIn extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0.5,
         title: const Text(
-          'Sign In',
+          'Dang nhap',
           style: TextStyle(
               fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black),
         ),

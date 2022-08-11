@@ -1,5 +1,7 @@
 import 'dart:developer';
+import 'package:app_with_firebase/auth/sign_up/view/sign_up.dart';
 import 'package:app_with_firebase/auth/validator.dart';
+import 'package:app_with_firebase/home/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -26,38 +28,15 @@ class _FormSignInState extends State<FormSignIn> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextFormField(
-              controller: phoneController,
-              keyboardType: TextInputType.phone,
-              textInputAction: TextInputAction.next,
-              decoration: InputDecoration(
-                  fillColor: Colors.grey[200],
-                  filled: true,
-                  hintText: 'Enter your phone',
-                  hintStyle: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w500),
-                  label: const Text(
-                    'Phone number',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                  ),
-                  border: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.black, width: 1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.black, width: 1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.red, width: 1),
-                    borderRadius: BorderRadius.circular(12),
-                  )),
+            const Text(
+              'F Film',
+              style: TextStyle(
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green),
             ),
             const SizedBox(
-              height: 20,
+              height: 50,
             ),
             TextFormField(
               validator: (String? value) =>
@@ -67,7 +46,7 @@ class _FormSignInState extends State<FormSignIn> {
               decoration: InputDecoration(
                   fillColor: Colors.grey[200],
                   filled: true,
-                  hintText: 'Enter your email',
+                  hintText: 'Nhập tài khoản',
                   hintStyle: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.w500),
                   label: const Text(
@@ -102,11 +81,11 @@ class _FormSignInState extends State<FormSignIn> {
               decoration: InputDecoration(
                   fillColor: Colors.grey[200],
                   filled: true,
-                  hintText: 'Enter your password',
+                  hintText: 'Nhập mật khẩu',
                   hintStyle: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.w500),
                   label: const Text(
-                    'Password',
+                    'Mật khẩu',
                     style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -129,11 +108,26 @@ class _FormSignInState extends State<FormSignIn> {
               height: 20,
             ),
             InkWell(
-              onTap: () {
+              onTap: () async {
                 if (_formKey.currentState!.validate()) {
                   log('success');
-                  // FirebaseAuth.instance
-                  //     .signInWithPhoneNumber(phoneController.text);
+                  try {
+                    UserCredential result = await FirebaseAuth.instance
+                        .signInWithEmailAndPassword(
+                            email: emailController.text,
+                            password: passwordController.text);
+                    User? user = result.user;
+                    // ignore: use_build_context_synchronously
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => HomeScreen(
+                                  uId: user!.uid,
+                                )));
+                  } on FirebaseException catch (e) {
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(content: Text(e.toString())));
+                  }
                 } else {
                   log('failure');
                 }
@@ -147,7 +141,7 @@ class _FormSignInState extends State<FormSignIn> {
                 ),
                 child: const Center(
                     child: Text(
-                  'Sign In',
+                  'Đăng nhập',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -162,17 +156,22 @@ class _FormSignInState extends State<FormSignIn> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  'You dont have account? ',
+                  'Bạn chưa có tài khoản? ',
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                       color: Colors.black),
                 ),
                 InkWell(
-                  onTap: () async {},
+                  onTap: () async {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SignUp()));
+                  },
                   splashColor: Colors.blueAccent,
                   child: const Text(
-                    'Sign up!',
+                    'Đăng kí!',
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
