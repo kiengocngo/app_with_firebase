@@ -18,13 +18,18 @@ class _FormSignInState extends State<FormSignIn> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
-
+  bool empty = true;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Form(
         key: _formKey,
+        onChanged: () {
+          setState(() {
+            if (emailController.text.trim().isNotEmpty) {}
+          });
+        },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -35,6 +40,7 @@ class _FormSignInState extends State<FormSignIn> {
                   fontWeight: FontWeight.bold,
                   color: Colors.green),
             ),
+            
             const SizedBox(
               height: 50,
             ),
@@ -77,6 +83,9 @@ class _FormSignInState extends State<FormSignIn> {
               obscureText: true,
               validator: (String? value) =>
                   const CustomVadicator().passwordVadicator(value),
+              onChanged: (value) {
+                _formKey.currentState!.validate();
+              },
               textInputAction: TextInputAction.done,
               decoration: InputDecoration(
                   fillColor: Colors.grey[200],
@@ -139,10 +148,10 @@ class _FormSignInState extends State<FormSignIn> {
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(width: 1, color: Colors.green),
                 ),
-                child: const Center(
+                child: Center(
                     child: Text(
-                  'Đăng nhập',
-                  style: TextStyle(
+                  empty ? 'khong' : 'Đăng nhập',
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
