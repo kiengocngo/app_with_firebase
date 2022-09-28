@@ -38,7 +38,7 @@ class _FormSignInState extends State<FormSignIn> {
               style: TextStyle(
                   fontSize: 40,
                   fontWeight: FontWeight.bold,
-                  color: Colors.green),
+                  color: Colors.greenAccent),
             ),
             
             const SizedBox(
