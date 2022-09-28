@@ -40,7 +40,6 @@ class _FormSignInState extends State<FormSignIn> {
                   fontWeight: FontWeight.bold,
                   color: Colors.greenAccent),
             ),
-            
             const SizedBox(
               height: 50,
             ),
